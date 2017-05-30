@@ -23,6 +23,7 @@
 #include "RECURSO.H"
 #undef RECURSO_OWN
 
+#define N 15
 /**************************************************************************
 *
 *	$TC	Tipo de dados: REC Descritor do elemento recurso
@@ -34,7 +35,7 @@
 
    typedef struct tgElemRecurso {
 
-         int matrícula;
+         int matricula;
 			/*matrícula para fins de identificação*/
 
 		 char * nome;
@@ -60,13 +61,15 @@ void imprime (void) ;
 
    REC_tpCondRet REC_CriarRecurso (int matr, char * name)
    {
+	   int i;
 	   if (recurso != NULL)
 	   {
 		   REC_ExcluirRecurso();
 	   }
 	   recurso = (tpElemRecurso *)malloc(sizeof(tpElemRecurso));
-	   recurso->matrícula = matr;
-	   recurso->nome=name;
+	   recurso->nome = (char *)malloc((strlen(name)+1));
+	   recurso->matricula = matr;
+	   strcpy(recurso->nome,name);
 	   recurso->status=0;
 	   if (recurso==NULL)
 	   {
@@ -87,7 +90,7 @@ void imprime (void) ;
 	   {
 		   return REC_CondRetNaoCriouRecurso;
 	   }
-	   if (recurso->matrícula != matr)
+	   if (recurso->matricula != matr)
 	   {
 		   return REC_CondRetRecursoNaoExiste;
 	   }
@@ -101,7 +104,7 @@ void imprime (void) ;
 	   {
 		   return REC_CondRetNaoCriouRecurso;
 	   }
-	   if (recurso->matrícula == matr)
+	   if (recurso->matricula == matr)
 	   {
 		   if(recurso->status==0)
 		   {
@@ -119,7 +122,7 @@ void imprime (void) ;
 	   {
 		   return REC_CondRetNaoCriouRecurso;
 	   }
-	   if(recurso->matrícula != matr)
+	   if(recurso->matricula != matr)
 	   {
 		   return REC_CondRetRecursoNaoExiste;
 	   }
@@ -142,12 +145,19 @@ void imprime (void) ;
 
    REC_tpCondRet REC_ImprimirDados( tpElemRecurso * rec )
    {
-	   printf("\nMatricula:%d",rec->matrícula);
+	   printf("\nMatricula:%d",rec->matricula);
 	   printf("\nNome     :%s",rec->nome);
 	   if(rec->status == 1)
 		   printf("\nOcupado");
 	   else
 		   printf("\nDisponível");
+   }
+
+   REC_tpCondRet REC_ValidaMatricula ( tpElemRecurso * rec , int matr)
+   {
+	   if( rec->matricula == matr )
+		   return REC_CondRetOK;
+	   return REC_CondRetRecursoNaoExiste;
    }
    
    
