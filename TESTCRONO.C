@@ -60,7 +60,9 @@
 
 #define     CRIAR_CRN_CMD       "=criar"
 #define     INS_REC_CMD         "=insrec"
-#define     INS_ESQ_CMD         "=insesq"
+#define     BSC_REC_CMD         "=buscarec"
+
+
 #define     IR_PAI_CMD          "=irpai"
 #define     IR_ESQ_CMD          "=iresq"
 #define     IR_DIR_CMD          "=irdir"
@@ -142,6 +144,18 @@
 			 CondRetObtido = CRN_InserirRecurso (matrDada, nomeRec);
 
 			 return TST_CompararInt( CondRetEsperada , CondRetObtido , "Retorno errado ao inserir Recurso" );
+
+		 }
+		 else if ( strcmp( ComandoTeste , BSC_REC_CMD ) == 0 )
+		 {
+			 NumLidos = LER_LerParametros("ii", &matrDada , &CondRetEsperada);
+			 if(NumLidos != 2)
+			 {
+				 return TST_CondRetParm;
+			 }
+			 CondRetObtido = CRN_BuscaRecurso( matrDada );
+
+			 return TST_CompararInt(CondRetEsperada , CondRetObtido , "Retorno errado ao buscar recurso");
 		 }
 
 

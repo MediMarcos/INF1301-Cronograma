@@ -53,7 +53,11 @@
          CRN_CondRetOK = 0 ,
                /* Executou correto */
 
-		CRN_CondRetFaltouMemoria = 1
+		CRN_CondRetFaltouMemoria = 5 ,
+
+		CRN_CondRetNaoAchouRecurso = 2 ,
+
+		CRN_CondRetNaoInseriuRecurso =3
 
 
    } CRN_tpCondRet ;
@@ -76,6 +80,7 @@
    //ARV_tpCondRet ARV_CriarArvore( void ) ;
    CRN_tpCondRet CRN_CriarCronograma (char * nome , int dataInicio);
    CRN_tpCondRet CRN_InserirRecurso(int matr , char * nome);
+   CRN_tpCondRet CRN_BuscaRecurso( int matr );
 
 
 

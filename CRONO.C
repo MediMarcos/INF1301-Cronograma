@@ -61,6 +61,7 @@
 
       static tpCrono * Crono = NULL;
             /* Ponteiro para a cabe‡a da árvore */
+	  //static tpElemRecurso * recGlobal = NULL;
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
@@ -101,18 +102,14 @@
 
    CRN_tpCondRet CRN_InserirRecurso(int matr , char * nome)
    {
-	   tpElemRecurso * rec;
+	   tpElemRecurso * recIns;
 	   if(REC_CriarRecurso(matr,nome)==REC_CondRetOK)
-		   rec = RetornaPonteiro(matr);
-	   LIS_InserirElementoApos(Crono->lisRecursos,rec);
-
-	   if(LIS_ProcurarValor( Crono->lisRecursos , rec ) == LIS_CondRetOK)
+		   recIns = RetornaPonteiro(matr);
+	   LIS_InserirElementoApos(Crono->lisRecursos,recIns);
+	   if(LIS_ProcurarValor( Crono->lisRecursos , recIns ) == LIS_CondRetOK)
 		   return CRN_CondRetOK;
-   }
-   
-
-
-
+	   return CRN_CondRetNaoInseriuRecurso;
+   } 
 /*****  Código das funções encapsuladas no módulo  *****/
 
 
@@ -122,14 +119,27 @@
    }
 
 
-   int CRN_BuscaRecurso( int matr , char * nome )
+   CRN_tpCondRet CRN_BuscaRecurso( int matr )
    {
-	   IrInicioLista( Crono->lisRecursos );
-	   while(LIS_ObterValor(Crono->lisRecursos) != NULL)
+	   REC_tpCondRet cond = REC_CondRetRecursoNaoExiste;
+	   LIS_tpCondRet ret = LIS_CondRetOK;
+	   tpElemRecurso * r;
+	   IrInicioLista(Crono->lisRecursos);
+	   //r = (tpElemRecurso*)LIS_ObterValor(Crono->lisRecursos);
+	   while(cond != REC_CondRetOK && ret != LIS_CondRetFimLista )
 	   {
-		   LIS_AvancarElementoCorrente(Crono->lisRecursos , 1);
-
+		   r = (tpElemRecurso*)LIS_ObterValor(Crono->lisRecursos);
+		   REC_ImprimirDados (r);
+		   cond = REC_ValidaMatricula( r , matr );
+		   ret = LIS_AvancarElementoCorrente(Crono->lisRecursos,2);
+		   
 	   }
+	   if(ret = LIS_CondRetFimLista )
+	   {
+		   return CRN_CondRetNaoAchouRecurso;
+	   }
+	   return CRN_CondRetOK;
+
 
    }
 

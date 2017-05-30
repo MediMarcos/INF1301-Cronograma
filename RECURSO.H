@@ -157,6 +157,8 @@ typedef struct tgElemRecurso tpElemRecurso;
 
    REC_tpCondRet REC_ImprimirDados( tpElemRecurso * rec );
 
+   REC_tpCondRet REC_ValidaMatricula ( tpElemRecurso * rec , int matr);
+
 #undef RECURSO_EXT
 
 /********** Fim do módulo de definição: Módulo recurso **********/
